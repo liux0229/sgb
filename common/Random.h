@@ -1,19 +1,23 @@
 #include <vector>
+#include "core.h"
 
 
 // TODO: quality items:
 // Namespace
-// A_ssert
-// Deny copy
+// Assert
 // Remove magic numbers
 // Test non-cycle behavior
 // Print random map
 // Add trace capability (i.e. remove direct reference to iostream)
+// wide char
+// UNIT test loader
+// Has been read since reading
 
 class Random
 {
+      DENY_COPY(Random);
 public:
-      Random(int seed);
+      explicit Random(int seed);
 
       // return an int in [0, 2^31)
       int NextInt()
@@ -24,7 +28,7 @@ public:
       // return an int in [0, m)
       int NextInt(int m) 
       { 
-            // TODO: check m
+            Assert::CodingErrorIfNot(m > 0 && static_cast<unsigned>(m) < (1UL << 31), "m out of range");
             unsigned x = 1UL << 31;
             unsigned t = x - (x % m);
             int r;
